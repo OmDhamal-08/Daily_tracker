@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Checklist Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Particles -->
+    <div id="particles"></div>
+
+    <div class="container">
+        <header class="glass-effect">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <div>
+                        <h1>Personal Checklist Tracker</h1>
+                        <p class="subtitle">Track your daily, weekly, and monthly progress with style</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <div class="stats-card glass-effect glow-on-hover">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Overall Statistics</h3>
+                    <div class="pulse-dot"></div>
+                </div>
+                <div id="stats" class="stats-content">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Days Tracked</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Weeks</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Months</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="date-info glass-effect glow-on-hover">
+                <div class="date-display">
+                    <div class="date-main">
+                        <i class="fas fa-calendar-day calendar-icon"></i>
+                        <div>
+                            <h3 id="current-date">Loading...</h3>
+                            <p class="date-meta">
+                                <span><i class="fas fa-hashtag"></i> Week <span id="week-number"></span></span>
+                                <span class="separator">•</span>
+                                <span><i class="fas fa-calendar"></i> <span id="month-name"></span></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div class="left-column">
+                <!-- Daily Checklist Form -->
+                <div class="card glass-effect">
+                    <div class="card-header-fancy">
+                        <div class="card-title-section">
+                            <div class="card-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div>
+                                <h2>Daily Checklist</h2>
+                                <p class="card-subtitle">Mark your daily tasks (cannot edit previous days)</p>
+                            </div>
+                        </div>
+                        <div class="card-decoration"></div>
+                    </div>
+                    
+                    <form id="dailyForm">
+                        <div class="form-group floating-label">
+                            <input type="date" id="date" name="date" value="" placeholder=" " required>
+                            <label for="date">Select Date</label>
+                            <div class="input-border"></div>
+                        </div>
+                        
+                        <div class="checklist-section">
+                            <div class="section-header">
+                                <h3><i class="fas fa-dumbbell"></i> Daily Tasks</h3>
+                                <span class="section-badge">Every Day</span>
+                            </div>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="gym" name="gym">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">GYM</span>
+                                        <span class="task-desc">Physical fitness</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fas fa-dumbbell"></i></span>
+                                </label>
+                                
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="dsa" name="dsa">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">DSA</span>
+                                        <span class="task-desc">Data structures & algorithms</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fas fa-code"></i></span>
+                                </label>
+                                
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="ml" name="ml">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">Machine Learning</span>
+                                        <span class="task-desc">AI & ML practice</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fas fa-brain"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-section">
+                            <div class="section-header">
+                                <h3><i class="fas fa-calendar-week"></i> Weekly Tasks</h3>
+                                <span class="section-badge">Weekly Goals</span>
+                            </div>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="django" name="django">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">Django</span>
+                                        <span class="task-desc">Web framework</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fab fa-python"></i></span>
+                                </label>
+                                
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="sql" name="sql">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">SQL</span>
+                                        <span class="task-desc">Database queries</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fas fa-database"></i></span>
+                                </label>
+                                
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="project_work" name="project_work">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">Project Work</span>
+                                        <span class="task-desc">Build something awesome</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fas fa-project-diagram"></i></span>
+                                </label>
+
+                                <label class="checkbox-label modern-checkbox">
+                                    <input type="checkbox" id="aws" name="aws">
+                                    <span class="checkbox-custom">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="task-info">
+                                        <span class="task-name">AWS</span>
+                                        <span class="task-desc">Cloud computing</span>
+                                    </span>
+                                    <span class="task-icon"><i class="fab fa-aws"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn gradient-btn">
+                            <span class="btn-content">
+                                <i class="fas fa-save"></i>
+                                <span>Save Today's Checklist</span>
+                            </span>
+                            <div class="btn-shimmer"></div>
+                        </button>
+                        <div id="formMessage" class="message"></div>
+                    </form>
+                </div>
+
+                <!-- Today's Status -->
+                <div class="card glass-effect">
+                    <div class="card-header-fancy">
+                        <div class="card-title-section">
+                            <div class="card-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div>
+                                <h2>Today's Status</h2>
+                                <p class="card-subtitle">Your current progress</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="todayStatus" class="status-container">
+                        <p>Loading today's status...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <!-- View History -->
+                <div class="card glass-effect">
+                    <div class="card-header-fancy">
+                        <div class="card-title-section">
+                            <div class="card-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div>
+                                <h2>View History</h2>
+                                <p class="card-subtitle">Browse your past records</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="form-group floating-label">
+                            <input type="date" id="startDate" name="startDate" placeholder=" " required>
+                            <label for="startDate">From Date</label>
+                            <div class="input-border"></div>
+                        </div>
+                        <div class="form-group floating-label">
+                            <input type="date" id="endDate" name="endDate" placeholder=" " required>
+                            <label for="endDate">To Date</label>
+                            <div class="input-border"></div>
+                        </div>
+                        <button id="loadHistory" class="btn-secondary gradient-btn">
+                            <span class="btn-content">
+                                <i class="fas fa-search"></i>
+                                <span>Load</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="history-container custom-scrollbar">
+                        <div id="historyList"></div>
+                    </div>
+                </div>
+
+                <!-- Reports Tabs -->
+                <div class="card glass-effect">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="weekly">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Weekly Reports</span>
+                        </button>
+                        <button class="tab-btn" data-tab="monthly">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Monthly Reports</span>
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content active" id="weeklyTab">
+                        <div class="tab-header">
+                            <h3><i class="fas fa-chart-bar"></i> Weekly Performance</h3>
+                        </div>
+                        <div id="weeklyReports" class="reports-container custom-scrollbar">
+                            <p>Loading weekly reports...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="monthlyTab">
+                        <div class="tab-header">
+                            <h3><i class="fas fa-chart-pie"></i> Monthly Overview</h3>
+                        </div>
+                        <div id="monthlyReports" class="reports-container custom-scrollbar">
+                            <p>Loading monthly reports...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="glass-effect">
+            <p>
+                <i class="fas fa-heart" style="color: #ff6b9d;"></i>
+                Personal Checklist Tracker &copy; 2024 | Built with FastAPI & Love
+                <i class="fas fa-heart" style="color: #ff6b9d;"></i>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="toast-icon"></i>
+        <span class="toast-message"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
