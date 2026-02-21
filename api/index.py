@@ -517,6 +517,3 @@ async def serve_static(path: str):
         if stripped_path.exists() and stripped_path.is_file():
             return FileResponse(str(stripped_path))
     raise HTTPException(status_code=404, detail="File not found")
-
-# For Vercel
-handler = app
