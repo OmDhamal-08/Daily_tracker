@@ -118,7 +118,7 @@ def get_db():
         db.close()
 
 # -------------------- Pydantic Schemas --------------------
-from pydantic import BaseModel, field_serializer
+from pydantic import BaseModel
 from typing import Optional
 from datetime import date as dt_date
 
@@ -143,12 +143,11 @@ class DailyChecklistResponse(BaseModel):
     project_work: bool
     aws: bool
     
-    @field_serializer('date')
-    def serialize_date(self, date_value: dt_date, _info):
-        return date_value.isoformat()
-    
     class Config:
-        from_attributes = True
+        orm_mode = True
+        json_encoders = {
+            dt_date: lambda v: v.isoformat()
+        }
 
 class WeeklyReportResponse(BaseModel):
     id: int
@@ -165,12 +164,11 @@ class WeeklyReportResponse(BaseModel):
     aws_percentage: float
     total_score: float
     
-    @field_serializer('start_date', 'end_date')
-    def serialize_dates(self, date_value: dt_date, _info):
-        return date_value.isoformat()
-    
     class Config:
-        from_attributes = True
+        orm_mode = True
+        json_encoders = {
+            dt_date: lambda v: v.isoformat()
+        }
 
 class MonthlyReportResponse(BaseModel):
     id: int
@@ -186,7 +184,7 @@ class MonthlyReportResponse(BaseModel):
     total_days_tracked: int
     
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # -------------------- FastAPI App --------------------
 app = FastAPI(title="Personal Checklist API", version="2.0.0")
