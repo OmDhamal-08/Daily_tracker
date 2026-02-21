@@ -1,6 +1,25 @@
-# Fix: Ensure our installed packages take priority over Vercel's broken vendored ones
+# Fix: Vercel vendors Pydantic v1 which is incompatible with Python 3.12.
+# Pydantic v1 calls ForwardRef._evaluate(globalns, localns, set())
+# but Python 3.12 changed the signature to require recursive_guard as keyword-only.
+# This patch bridges the two calling conventions.
+import typing
 import sys
-sys.path = [p for p in sys.path if '_vendor' not in p] + [p for p in sys.path if '_vendor' in p]
+
+_orig_evaluate = typing.ForwardRef._evaluate
+
+def _patched_evaluate(self, globalns, localns, *args, **kwargs):
+    try:
+        return _orig_evaluate(self, globalns, localns, *args, **kwargs)
+    except TypeError:
+        # Python 3.12+: _evaluate(globalns, localns, type_params, *, recursive_guard)
+        # Pydantic v1 passes: _evaluate(globalns, localns, recursive_guard_set)
+        return _orig_evaluate(
+            self, globalns, localns,
+            type_params=(),
+            recursive_guard=args[0] if args else frozenset(),
+        )
+
+typing.ForwardRef._evaluate = _patched_evaluate
 
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
