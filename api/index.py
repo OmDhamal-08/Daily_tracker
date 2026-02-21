@@ -1,3 +1,7 @@
+# Fix: Ensure our installed packages take priority over Vercel's broken vendored ones
+import sys
+sys.path = [p for p in sys.path if '_vendor' not in p] + [p for p in sys.path if '_vendor' in p]
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
