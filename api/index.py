@@ -29,12 +29,11 @@ if DATABASE_URL:
     elif DATABASE_URL.startswith("postgresql://"):
         DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
     
+    from sqlalchemy.pool import NullPool
     engine = create_engine(
         DATABASE_URL,
+        poolclass=NullPool,  # NullPool is best for serverless (no persistent connections)
         pool_pre_ping=True,
-        pool_recycle=300,
-        pool_size=5,
-        max_overflow=10,
     )
 else:
     # Local development fallback with SQLite
@@ -97,11 +96,21 @@ class MonthlyReport(Base):
     avg_aws = Column(Float, default=0.0)
     total_days_tracked = Column(Integer, default=0)
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Tables will be created lazily on first request (not at import time)
+_tables_created = False
+
+def ensure_tables():
+    global _tables_created
+    if not _tables_created:
+        try:
+            Base.metadata.create_all(bind=engine)
+            _tables_created = True
+        except Exception as e:
+            print(f"Warning: Could not create tables: {e}")
 
 # Dependency
 def get_db():
+    ensure_tables()
     db = SessionLocal()
     try:
         yield db
